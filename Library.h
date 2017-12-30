@@ -1,0 +1,33 @@
+#ifndef LIBRARY_H
+#define LIBRARY_H
+#include <string>
+#include "Media.h"
+
+struct LibNode{
+    Media *item;
+    LibNode *parent;
+    LibNode *leftChild;
+    LibNode *rightChild;
+    
+    LibNode(){}
+    LibNode(Media *media_item){
+      item = media_item;
+    }
+
+};
+
+class Library
+{
+    public:
+        Library();
+        virtual ~Library();
+        void buildLibrary(std::string file);
+        void addMedia(Media *item);
+        void printLibrary();
+    protected:
+    private:
+      LibNode *root;
+      void printLibrary(LibNode *node);
+};
+
+#endif // LIBRARY_H

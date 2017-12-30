@@ -1,0 +1,3 @@
+title  genre  year  rating
+ABC  POP  1999 5
+ZZZ  Hip-Hop  2001  5
