@@ -18,19 +18,29 @@ Library::~Library(){
 
 void Library::buildLibrary(string file){
   //Open File
+
   fstream fileName;
   fileName.open(file);
   string line;
 
   Media* item = new Media();
+
   while (getline (fileName, line)){
       string details[4];
       int i = 0;
 
       while(!line.empty()){
-        int delimiter = line.find('  ');
-        details[i] = line.substr(0, delimiter);
-        line = line.substr(delimiter+2, line.length()-1);
+        int delimiter = line.find(',');
+        // Word at end of line
+        if(delimiter == -1){
+          delimiter = line.length();
+          details[i] = line.substr(0, delimiter);
+          line = "";
+        }
+        else{
+          details[i] = line.substr(0, delimiter);
+          line = line.substr(delimiter+2, line.length());
+        }
         i++;
       }
 
@@ -40,6 +50,7 @@ void Library::buildLibrary(string file){
   }
   //Close File
   fileName.close();
+  cout << "Library Built" << endl;
 }
 
 void Library::addMedia(Media *newItem){
@@ -54,9 +65,7 @@ void Library::addMedia(Media *newItem){
     root = temp;
     cout << "inserting at root " << root->item->title<< endl;
   }
-  else {
 
-  }
 }
 
 void Library::printLibrary(){
