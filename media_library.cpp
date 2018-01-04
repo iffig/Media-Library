@@ -6,7 +6,7 @@ using namespace std;
 
 void userMenu();
 
-int main(int argc, char*argv[]){
+int main(int argc, char* argv[]){
 
   Library* my_library = new Library();
 
@@ -44,7 +44,7 @@ int main(int argc, char*argv[]){
       }
       // Add item to library
       else if(selection == "6"){
-
+        my_library->addMedia(my_library->createItem());
       }
       // Remove item from library
       else if(selection == "7"){
@@ -65,5 +65,4 @@ void userMenu(){
     cout << "7. Remove item from library" << endl;
 
     cout << "Press 'q' to quit" << endl;
-
 }

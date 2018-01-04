@@ -4,13 +4,13 @@
 #include "Media.h"
 
 struct LibNode{
-    Media *item;
-    LibNode *parent;
-    LibNode *leftChild;
-    LibNode *rightChild;
+    Media* item;
+    LibNode* parent;
+    LibNode* leftChild;
+    LibNode* rightChild;
 
     LibNode(){}
-    LibNode(Media *media_item){
+    LibNode(Media* media_item){
       item = media_item;
     }
 
@@ -22,13 +22,15 @@ class Library
         Library();
         virtual ~Library();
         void buildLibrary(std::string file);
-        void addMedia(Media *item);
-        void setRoot(LibNode *node);
+        void addMedia(Media* item);
+        Media* createItem();
+        void setRoot(LibNode* node);
+        Media* getRoot(LibNode* node);
         void printLibrary();
     protected:
     private:
-      LibNode *root;
-      void printLibrary(LibNode *node);
+      LibNode* root;
+      void printLibrary(LibNode* node);
 };
 
 #endif // LIBRARY_H

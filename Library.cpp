@@ -51,11 +51,37 @@ void Library::buildLibrary(string file){
   cout << "Library Successfully Built" << endl << endl;
 }
 
-void Library::setRoot(LibNode *node){
+void Library::setRoot(LibNode* node){
   root = node;
 }
 
-void Library::addMedia(Media *newItem){
+Media* Library::getRoot(LibNode* node){
+  root = node;
+}
+
+Media* Library::createItem(){
+  string title, genre, year, rating;
+
+  cout << "=== Add Media Item ===" << endl;
+  cout << "Enter title: ";
+  getline(cin, title);
+
+  cout << "Enter genre: ";
+  getline(cin, genre);
+
+  cout << "Enter year: ";
+  getline(cin, year);
+
+  cout << "Enter rating: ";
+  getline(cin, rating);
+
+  Media* item = new Media();
+  item->setDetails(title, genre, year, rating);
+
+  return item;
+}
+
+void Library::addMedia(Media* newItem){
 
     // Create the node we will be inserting
     LibNode * temp = new LibNode(newItem);
@@ -96,11 +122,10 @@ void Library::addMedia(Media *newItem){
 }
 
 void Library::printLibrary(){
-  cout << "root is " << root->item->title << endl;
   printLibrary(root);
 }
 
-void Library::printLibrary(LibNode *node){
+void Library::printLibrary(LibNode* node){
   LibNode* current = new LibNode();
   current = node;
 
