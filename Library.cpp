@@ -1,7 +1,9 @@
-/* Library.h and Library.cpp are used to manage the
+/*
+   Library.h and Library.cpp are used to manage the
    actions of the underlying BST that is storing
    the contents of the media library.
- */
+*/
+
 #include "Library.h"
 #include <iostream>
 #include <fstream>
@@ -18,17 +20,15 @@ Library::~Library(){
 
 void Library::buildLibrary(string file){
   //Open File
-
   fstream fileName;
   fileName.open(file);
   string line;
 
-  Media* item = new Media();
 
   while (getline (fileName, line)){
+      Media* item = new Media();
       string details[4];
       int i = 0;
-
       while(!line.empty()){
         int delimiter = line.find(',');
         // Word at end of line
@@ -43,28 +43,55 @@ void Library::buildLibrary(string file){
         }
         i++;
       }
-
       item->setDetails(details[0], details[1], details[2], details[3]);
       addMedia(item);
-
   }
   //Close File
   fileName.close();
-  cout << "Library Built" << endl;
+  cout << "Library Successfully Built" << endl << endl;
+}
+
+void Library::setRoot(LibNode *node){
+  root = node;
 }
 
 void Library::addMedia(Media *newItem){
-  LibNode *temp = new LibNode(newItem);
 
-  temp->item = newItem;
-  temp->parent = NULL;
-  temp->leftChild = NULL;
-  temp->rightChild = NULL;
+    // Create the node we will be inserting
+    LibNode * temp = new LibNode(newItem);
+    temp->leftChild = NULL;
+    temp->rightChild = NULL;
+    temp->parent = NULL;
 
-  if(root == NULL){
-    root = temp;
-    cout << "inserting at root " << root->item->title<< endl;
-  }
+    LibNode * x = root;
+    LibNode * y = NULL;
+
+    // Do we have an empty tree?
+    if (root == NULL){
+      setRoot(temp);
+    }
+    // If the tree is not empty
+    else
+    {
+        // Get to the end of the tree, where we need to add this node.
+        while (x != NULL)
+        {
+            y = x;
+            if(temp->item->title.compare(x->item->title) < 0)
+                x = x->leftChild;
+            else
+                x = x->rightChild;
+
+        }
+        // set the parent of this node to be the previous node.
+        temp->parent = y;
+
+        // Determine which child to this previous node we are at.
+        if (temp->item->title.compare(y->item->title) < 0)
+            y->leftChild = temp;
+        else
+            y->rightChild = temp;
+    }
 
 }
 

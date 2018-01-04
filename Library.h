@@ -8,7 +8,7 @@ struct LibNode{
     LibNode *parent;
     LibNode *leftChild;
     LibNode *rightChild;
-    
+
     LibNode(){}
     LibNode(Media *media_item){
       item = media_item;
@@ -23,6 +23,7 @@ class Library
         virtual ~Library();
         void buildLibrary(std::string file);
         void addMedia(Media *item);
+        void setRoot(LibNode *node);
         void printLibrary();
     protected:
     private:

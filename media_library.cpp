@@ -25,7 +25,6 @@ int main(int argc, char*argv[]){
       if(selection=="1"){
         //Prints all
         my_library->printLibrary();
-
       }
       // View favorites
       else if(selection=="2"){
