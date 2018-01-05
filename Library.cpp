@@ -172,75 +172,77 @@ void Library::deleteMedia(string title){
     cout << "Item not in library." << endl;
   }
   else if(itemNode != NULL){
+    // Item node has no children
+    if(itemNode->rightChild == NULL && itemNode->leftChild == NULL){
+      if(itemNode == getRoot())
+        setRoot(NULL);
+      else if(itemNode == itemNode->parent->leftChild)
+        itemNode->parent->leftChild = NULL;
 
-      // Item node has no children
-      if(itemNode->rightChild == NULL && itemNode->leftChild == NULL){
-        if(itemNode == getRoot())
-          setRoot(NULL);
-        else if(itemNode == itemNode->parent->leftChild)
-          itemNode->parent->leftChild = NULL;
+      else if (itemNode == itemNode->parent->rightChild)
+        itemNode->parent->rightChild = NULL;
 
-        else if (itemNode == itemNode->parent->rightChild)
-          itemNode->parent->rightChild = NULL;
+      delete itemNode;
+      itemNode = NULL;
+      return;
+    }
 
-        delete itemNode;
-        itemNode = NULL;
-        return;
+    // Item node has one child
+
+    // Item node has right child
+    else if(itemNode->leftChild == NULL && itemNode->rightChild != NULL){
+      if(itemNode == getRoot())
+        setRoot(itemNode->rightChild);
+      else if(itemNode == itemNode->parent->leftChild)
+        itemNode->parent->leftChild = itemNode->rightChild;
+
+      else if (itemNode == itemNode->parent->rightChild)
+        itemNode->parent->rightChild = itemNode->rightChild;
+
+      delete itemNode;
+      itemNode = NULL;
+      return;
+    }
+
+    // Item node has left child
+    else if (itemNode->rightChild == NULL && itemNode->leftChild != NULL) {
+      if(itemNode == getRoot())
+        setRoot(itemNode->leftChild);
+
+      else if(itemNode == itemNode->parent->leftChild)
+        itemNode->parent->leftChild = itemNode->leftChild;
+
+      else if (itemNode == itemNode->parent->rightChild)
+        itemNode->parent->rightChild = itemNode->leftChild;
+
+      delete itemNode;
+      itemNode = NULL;
+      return;
+    }
+
+    // Item node has two children
+    else{
+      if(itemNode->rightChild->leftChild!=NULL){
+        LibNode* currLeft;
+        LibNode* currLeftParent;
+        currLeftParent=itemNode->rightChild;
+        currLeft=itemNode->rightChild->leftChild;
+        while(currLeft->leftChild != NULL){
+          currLeftParent=currLeft;
+          currLeft=currLeft->leftChild;
+        }
+        itemNode->item->title=currLeft->item->title;
+        delete currLeft;
+        currLeft = NULL;
+        currLeftParent->leftChild= NULL;
       }
-
-      // Item node has one child
-      // Item node has right child
-      else if(itemNode->leftChild == NULL && itemNode->rightChild != NULL){
-        if(itemNode == itemNode->parent->leftChild){
-          itemNode->parent->leftChild = itemNode->rightChild;
-        }
-        else if (itemNode == itemNode->parent->rightChild){
-          itemNode->parent->rightChild = itemNode->rightChild;
-          delete itemNode;
-          itemNode = NULL;
-          return;
-        }
+      else {
+        LibNode* temp =itemNode->rightChild;
+        itemNode->item->title=temp->item->title;
+        itemNode->rightChild=temp->rightChild;
+        delete temp;
+        temp = NULL;
       }
-
-      // Item node has left child
-      else if (itemNode->rightChild == NULL && itemNode->leftChild != NULL) {
-        if(itemNode == itemNode->parent->leftChild){
-          itemNode->parent->leftChild = itemNode->leftChild;
-          delete itemNode;
-          itemNode = NULL;
-          return;
-        }
-        else if (itemNode == itemNode->parent->rightChild){
-          itemNode->parent->rightChild = itemNode->leftChild;
-          delete itemNode;
-          itemNode = NULL;
-          return;
-        }
-      }
-
-      // Item node has two children
-      else{
-        if(itemNode->rightChild->leftChild!=NULL){
-          LibNode* currLeft;
-          LibNode* currLeftParent;
-          currLeftParent=itemNode->rightChild;
-          currLeft=itemNode->rightChild->leftChild;
-          while(currLeft->leftChild != NULL){
-            currLeftParent=currLeft;
-            currLeft=currLeft->leftChild;
-          }
-          itemNode->item->title=currLeft->item->title;
-          delete currLeft;
-          currLeft = NULL;
-          currLeftParent->leftChild= NULL;
-        }
-        else {
-          LibNode* temp =itemNode->rightChild;
-          itemNode->item->title=temp->item->title;
-          itemNode->rightChild=temp->rightChild;
-          delete temp;
-          temp = NULL;
-        }
-      }
+    }
     }
 }
