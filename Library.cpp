@@ -24,7 +24,6 @@ void Library::buildLibrary(string file){
   fileName.open(file);
   string line;
 
-
   while (getline (fileName, line)){
       Media* item = new Media();
       string details[4];
@@ -55,71 +54,66 @@ void Library::setRoot(LibNode* node){
   root = node;
 }
 
-Media* Library::getRoot(LibNode* node){
-  root = node;
+LibNode* Library::getRoot(){
+  return root;
 }
 
 Media* Library::createItem(){
   string title, genre, year, rating;
-
   cout << "=== Add Media Item ===" << endl;
   cout << "Enter title: ";
   getline(cin, title);
-
   cout << "Enter genre: ";
   getline(cin, genre);
-
   cout << "Enter year: ";
   getline(cin, year);
-
   cout << "Enter rating: ";
   getline(cin, rating);
-
   Media* item = new Media();
   item->setDetails(title, genre, year, rating);
-
   return item;
 }
 
 void Library::addMedia(Media* newItem){
+  // Create the node we will be inserting
+  LibNode * temp = new LibNode(newItem);
+  temp->leftChild = NULL;
+  temp->rightChild = NULL;
+  temp->parent = NULL;
 
-    // Create the node we will be inserting
-    LibNode * temp = new LibNode(newItem);
-    temp->leftChild = NULL;
-    temp->rightChild = NULL;
-    temp->parent = NULL;
+  LibNode * x = root;
+  LibNode * y = NULL;
 
-    LibNode * x = root;
-    LibNode * y = NULL;
-
-    // If tree is empty
-    if (root == NULL){
-      setRoot(temp);
-    }
-    else{
-        // Find where to insert node
-        while (x != NULL){
-            y = x;
-            if(temp->item->title.compare(x->item->title) < 0)
-                x = x->leftChild;
-            else
-                x = x->rightChild;
-
-        }
-        // Set inserted node's parent
-        temp->parent = y;
-
-        // Set inserted node as correct child of parent
-        if (temp->item->title.compare(y->item->title) < 0)
-            y->leftChild = temp;
+  // If tree is empty
+  if (getRoot() == NULL){
+    setRoot(temp);
+  }
+  else{
+      // Find where to insert node
+      while (x != NULL){
+        y = x;
+        if(temp->item->title.compare(x->item->title) < 0)
+            x = x->leftChild;
         else
-            y->rightChild = temp;
-    }
+            x = x->rightChild;
+      }
+      // Set inserted node's parent
+      temp->parent = y;
+
+      // Set inserted node as correct child of parent
+      if (temp->item->title.compare(y->item->title) < 0)
+          y->leftChild = temp;
+      else
+          y->rightChild = temp;
+  }
 }
 
 void Library::printLibrary(){
   cout << endl << "=== Your Media Library ===" << endl;
-  printLibrary(root);
+  if(root == NULL)
+    cout << "Your Library is empty." << endl;
+  else
+    printLibrary(root);
   cout << endl;
 }
 
@@ -145,7 +139,7 @@ void Library::searchLibrary(){
   cout << endl << "=== Media Search ===" << endl;
   cout << "Enter Title: ";
   getline(cin, searchString);
-  searchNode = searchLibrary(root, searchString);
+  searchNode = findItem(root, searchString);
   cout << endl;
   if(searchNode == NULL){
     cout << "Item not found." << endl << endl;
@@ -155,17 +149,98 @@ void Library::searchLibrary(){
   }
 }
 
-LibNode* Library::searchLibrary(LibNode* searchNode, string searchString){
+LibNode* Library::findItem(LibNode* searchNode, string searchString){
   if (searchNode == NULL || searchNode->item->title == searchString){
       return searchNode;
   }
   else{
-    if(searchString < searchNode->item->title){
-        searchNode = searchLibrary(searchNode->leftChild, searchString);
-    }
-    else{
-        searchNode = searchLibrary(searchNode->rightChild, searchString);
-    }
+    if(searchString < searchNode->item->title)
+        searchNode = findItem(searchNode->leftChild, searchString);
+    else
+        searchNode = findItem(searchNode->rightChild, searchString);
     return searchNode;
   }
+}
+
+void Library::deleteMedia(string title){
+
+  LibNode* itemNode = new LibNode();
+  // Find item to delete
+  itemNode = findItem(root, title);
+
+  if(itemNode == NULL){
+    cout << "Item not in library." << endl;
+  }
+  else if(itemNode != NULL){
+
+      // Item node has no children
+      if(itemNode->rightChild == NULL && itemNode->leftChild == NULL){
+        if(itemNode == getRoot())
+          setRoot(NULL);
+        else if(itemNode == itemNode->parent->leftChild)
+          itemNode->parent->leftChild = NULL;
+
+        else if (itemNode == itemNode->parent->rightChild)
+          itemNode->parent->rightChild = NULL;
+
+        delete itemNode;
+        itemNode = NULL;
+        return;
+      }
+
+      // Item node has one child
+      // Item node has right child
+      else if(itemNode->leftChild == NULL && itemNode->rightChild != NULL){
+        if(itemNode == itemNode->parent->leftChild){
+          itemNode->parent->leftChild = itemNode->rightChild;
+        }
+        else if (itemNode == itemNode->parent->rightChild){
+          itemNode->parent->rightChild = itemNode->rightChild;
+          delete itemNode;
+          itemNode = NULL;
+          return;
+        }
+      }
+
+      // Item node has left child
+      else if (itemNode->rightChild == NULL && itemNode->leftChild != NULL) {
+        if(itemNode == itemNode->parent->leftChild){
+          itemNode->parent->leftChild = itemNode->leftChild;
+          delete itemNode;
+          itemNode = NULL;
+          return;
+        }
+        else if (itemNode == itemNode->parent->rightChild){
+          itemNode->parent->rightChild = itemNode->leftChild;
+          delete itemNode;
+          itemNode = NULL;
+          return;
+        }
+      }
+
+      // Item node has two children
+      else{
+        if(itemNode->rightChild->leftChild!=NULL){
+          LibNode* currLeft;
+          LibNode* currLeftParent;
+          currLeftParent=itemNode->rightChild;
+          currLeft=itemNode->rightChild->leftChild;
+          while(currLeft->leftChild != NULL){
+            currLeftParent=currLeft;
+            currLeft=currLeft->leftChild;
+          }
+          itemNode->item->title=currLeft->item->title;
+          delete currLeft;
+          currLeft = NULL;
+          currLeftParent->leftChild= NULL;
+        }
+        else {
+          LibNode* temp =itemNode->rightChild;
+          itemNode->item->title=temp->item->title;
+          itemNode->rightChild=temp->rightChild;
+          delete temp;
+          temp = NULL;
+        }
+      }
+    }
 }

@@ -22,12 +22,13 @@ class Library
         virtual ~Library();
         void buildLibrary(std::string file);
         void addMedia(Media* item);
+        void deleteMedia(std::string title);
         Media* createItem();
         void setRoot(LibNode* node);
-        Media* getRoot(LibNode* node);
+        LibNode* getRoot();
         void printLibrary();
         void searchLibrary();
-        LibNode* searchLibrary(LibNode* node, std::string searchString);
+        LibNode* findItem(LibNode* node, std::string searchString);
     protected:
     private:
       LibNode* root;

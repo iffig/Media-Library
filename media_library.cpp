@@ -48,7 +48,14 @@ int main(int argc, char* argv[]){
       }
       // Remove item from library
       else if(selection == "7"){
-
+        string title;
+        cout << "Enter title to delete: ";
+        getline(cin, title);
+        my_library->deleteMedia(title);
+      }
+      else if(selection == "root"){
+        LibNode* r = my_library->getRoot();
+        cout << r->item->title << endl;
       }
   }
 }
