@@ -42,7 +42,7 @@ Media* Book::add(){
   cout << "Enter rating: ";
   getline(cin, rating);
 
-  string details[7] = {title, author, genre, publisher, year, pages, rating};
+  string details[8] = {"", title, genre, year, rating, author, publisher, pages};
 
   Book* book = new Book(details);
   return book;
