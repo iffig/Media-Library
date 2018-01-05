@@ -11,6 +11,7 @@ class Movie: public Media{
 
         std::string summary;
         std::string duration;
+        std::string director;
 
         int watchCount;
 

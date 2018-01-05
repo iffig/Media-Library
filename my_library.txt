@@ -1,3 +1,6 @@
-type, title, genre, year
-book, ABC, POP, 1999, 5, rating, author, publisher, pages
-book, ZZZ, Hip-Hop, 2001, 5, rating, author, publisher, pages
+Example of Book: book, The Sun Also Rises, Fiction, 1926, 4, Ernest Hemingway, Scribner, 198
+Example of Movie: movie, Jaws, Action, 1975, 4, Shark attacks beachgoers, 124 minutes, Steven Spielberg
+Example of Album:
+
+book, The Sun Also Rises, Fiction, 1926, 4, Ernest Hemingway, Scribner, 198
+movie, Jaws, Action, 1975, 4, Shark attacks beachgoers, 124 minutes, Steven Spielberg

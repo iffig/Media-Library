@@ -1,5 +1,5 @@
 LIB = my_library.txt
-OBJS = media_library.o Media.o Library.o Book.o
+OBJS = media_library.o Media.o Library.o Book.o Movie.o
 CC = g++ -std=c++11
 CFLAGS = -c -Wall
 
@@ -20,6 +20,9 @@ Library.o: Library.cpp Library.h
 
 Book.o: Book.cpp Book.h
 	$(CC) $(CFLAGS) Book.cpp
+
+Movie.o: Movie.cpp Movie.h
+	$(CC) $(CFLAGS) Movie.cpp
 
 clean:
 	rm -rf *o media

@@ -21,6 +21,7 @@ Book::~Book(){
 void Book::use(){
   readCount++;
 }
+
 Media* Book::add(){
 
   string title, genre, year, rating, author, publisher, pages;

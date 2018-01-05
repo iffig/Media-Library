@@ -11,6 +11,7 @@ Movie::Movie() : Media(){
 Movie::Movie(string* details) : Media(details){
   summary = details[5];
   duration = details[6];
+  director = details[7];
   watchCount = 0;
 }
 
@@ -18,16 +19,19 @@ Movie::~Movie(){
 }
 
 void Movie::use(){
-  readCount++;
+  watchCount++;
 }
+
 Media* Movie::add(){
 
-  string title, genre, year, rating, summary, duration;
+  string title, genre, year, rating, summary, duration, director;
 
   cout << "=== Add Movie ===" << endl;
 
   cout << "Enter title: ";
   getline(cin, title);
+  cout << "Enter director: ";
+  getline(cin, director);
   cout << "Enter genre: ";
   getline(cin, genre);
   cout << "Enter year: ";
@@ -39,19 +43,20 @@ Media* Movie::add(){
   cout << "Enter summary: ";
   getline(cin, summary);
 
-  string details[6] = {"", title, genre, year, rating, summary, duration};
+  string details[8] = {"", title, genre, year, rating, summary, duration, director};
 
   Movie* movie = new Movie(details);
-  return Movie;
+  return movie;
 }
 
 void Movie::update(){
-  watchCount++
+  watchCount++;
 }
 
 void Movie::printDetails(){
   cout << "=== Media Details ===" << endl;
   cout << "Title: " << title << endl;
+  cout << "Director: " << director << endl;
   cout << "Year: " << year << endl;
   cout << "Duration:" << duration << endl;
   cout << "Summary:" << summary << endl;

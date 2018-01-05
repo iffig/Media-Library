@@ -3,6 +3,7 @@
 #include <string>
 #include "Media.h"
 #include "Book.h"
+#include "Movie.h"
 
 struct LibNode{
     Media* item;
