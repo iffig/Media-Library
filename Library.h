@@ -13,7 +13,6 @@ struct LibNode{
     LibNode(Media* media_item){
       item = media_item;
     }
-
 };
 
 class Library
@@ -27,6 +26,8 @@ class Library
         void setRoot(LibNode* node);
         Media* getRoot(LibNode* node);
         void printLibrary();
+        void searchLibrary();
+        LibNode* searchLibrary(LibNode* node, std::string searchString);
     protected:
     private:
       LibNode* root;

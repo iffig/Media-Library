@@ -27,7 +27,7 @@ void Media::printDetails(){
   cout << "Title: " << title << endl;
   cout << "Genre: " << genre << endl;
   cout << "Year:" << year << endl;
-  cout << "Rating: " << rating << endl;
+  cout << "Rating: " << rating << endl << endl;
 
 }
 

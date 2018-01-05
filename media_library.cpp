@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
       }
       // Search media library
       else if(selection=="3"){
-
+        my_library->searchLibrary();
       }
       // Rate items
       else if(selection=="4"){

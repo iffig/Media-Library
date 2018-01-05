@@ -92,16 +92,13 @@ void Library::addMedia(Media* newItem){
     LibNode * x = root;
     LibNode * y = NULL;
 
-    // Do we have an empty tree?
+    // If tree is empty
     if (root == NULL){
       setRoot(temp);
     }
-    // If the tree is not empty
-    else
-    {
-        // Get to the end of the tree, where we need to add this node.
-        while (x != NULL)
-        {
+    else{
+        // Find where to insert node
+        while (x != NULL){
             y = x;
             if(temp->item->title.compare(x->item->title) < 0)
                 x = x->leftChild;
@@ -109,20 +106,21 @@ void Library::addMedia(Media* newItem){
                 x = x->rightChild;
 
         }
-        // set the parent of this node to be the previous node.
+        // Set inserted node's parent
         temp->parent = y;
 
-        // Determine which child to this previous node we are at.
+        // Set inserted node as correct child of parent
         if (temp->item->title.compare(y->item->title) < 0)
             y->leftChild = temp;
         else
             y->rightChild = temp;
     }
-
 }
 
 void Library::printLibrary(){
+  cout << endl << "=== Your Media Library ===" << endl;
   printLibrary(root);
+  cout << endl;
 }
 
 void Library::printLibrary(LibNode* node){
@@ -136,5 +134,38 @@ void Library::printLibrary(LibNode* node){
 
   if(current->rightChild != NULL){
       printLibrary(current->rightChild);
+  }
+}
+
+//Currently for search by title
+void Library::searchLibrary(){
+  string searchString;
+  LibNode* searchNode = new LibNode();
+
+  cout << endl << "=== Media Search ===" << endl;
+  cout << "Enter Title: ";
+  getline(cin, searchString);
+  searchNode = searchLibrary(root, searchString);
+  cout << endl;
+  if(searchNode == NULL){
+    cout << "Item not found." << endl << endl;
+  }
+  else{
+    searchNode->item->printDetails();
+  }
+}
+
+LibNode* Library::searchLibrary(LibNode* searchNode, string searchString){
+  if (searchNode == NULL || searchNode->item->title == searchString){
+      return searchNode;
+  }
+  else{
+    if(searchString < searchNode->item->title){
+        searchNode = searchLibrary(searchNode->leftChild, searchString);
+    }
+    else{
+        searchNode = searchLibrary(searchNode->rightChild, searchString);
+    }
+    return searchNode;
   }
 }
