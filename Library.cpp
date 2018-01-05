@@ -25,8 +25,7 @@ void Library::buildLibrary(string file){
   string line;
 
   while (getline (fileName, line)){
-      Media* item = new Media();
-      string details[4];
+      string details[10];
       int i = 0;
       while(!line.empty()){
         int delimiter = line.find(',');
@@ -42,8 +41,10 @@ void Library::buildLibrary(string file){
         }
         i++;
       }
-      item->setDetails(details[0], details[1], details[2], details[3]);
-      addMedia(item);
+      if(details[0] == "book"){
+        Book* item = new Book(details);
+        addMedia(item);
+      }
   }
   //Close File
   fileName.close();
@@ -58,20 +59,16 @@ LibNode* Library::getRoot(){
   return root;
 }
 
+// This is the only function that will change if using a non-media item
 Media* Library::createItem(){
-  string title, genre, year, rating;
-  cout << "=== Add Media Item ===" << endl;
-  cout << "Enter title: ";
-  getline(cin, title);
-  cout << "Enter genre: ";
-  getline(cin, genre);
-  cout << "Enter year: ";
-  getline(cin, year);
-  cout << "Enter rating: ";
-  getline(cin, rating);
-  Media* item = new Media();
-  item->setDetails(title, genre, year, rating);
-  return item;
+  string type;
+  cout << "What type of media are you adding? book | movie | album " << endl;;
+  getline(cin, type);
+
+  if(type == "book"){
+    Book* book = new Book();
+    return book->add();
+  }
 }
 
 void Library::addMedia(Media* newItem){

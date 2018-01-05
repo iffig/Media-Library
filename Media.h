@@ -2,23 +2,30 @@
 #define MEDIA_H
 #include <string>
 
-class Media
-{
+class Media{
     public:
         Media();
+        Media(std::string* details);
         virtual ~Media();
 
         std::string title;
         std::string genre;
         std::string year;
+        std::string rating;
+        bool isFavorite;
 
-        void setDetails(std::string title, std::string genre, std::string year, std::string rating);
-        void printDetails();
-        std::string getRating();
-        void updateDetails(std::string attribute);
+        void addFavorite();
+
+        // Abstract classes to be filled in
+
+        virtual void use() = 0;
+        virtual void printDetails() = 0;
+        virtual Media* add() = 0;
+        virtual void update() = 0;
+
     protected:
     private:
-      std::string rating;
+
 };
 
 #endif // MEDIA_H

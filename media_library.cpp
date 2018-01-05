@@ -21,6 +21,10 @@ int main(int argc, char* argv[]){
       userMenu();
       getline(cin, selection);
 
+      if(selection == "test"){
+
+      }
+
       // View media
       if(selection=="1"){
         //Prints all
@@ -28,7 +32,7 @@ int main(int argc, char* argv[]){
       }
       // View favorites
       else if(selection=="2"){
-
+        // Print only favorites
       }
       // Search media library
       else if(selection=="3"){

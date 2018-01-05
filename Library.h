@@ -2,6 +2,7 @@
 #define LIBRARY_H
 #include <string>
 #include "Media.h"
+#include "Book.h"
 
 struct LibNode{
     Media* item;
@@ -29,6 +30,7 @@ class Library
         void printLibrary();
         void searchLibrary();
         LibNode* findItem(LibNode* node, std::string searchString);
+        void test();
     protected:
     private:
       LibNode* root;
