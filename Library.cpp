@@ -69,6 +69,10 @@ Media* Library::createItem(){
     Book* book = new Book();
     return book->add();
   }
+  else if(type == "movie"){
+    Movie* movie = new Movie();
+    return movie->add();
+  }
 }
 
 void Library::addMedia(Media* newItem){

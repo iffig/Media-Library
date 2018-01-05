@@ -20,11 +20,6 @@ int main(int argc, char* argv[]){
   {
       userMenu();
       getline(cin, selection);
-
-      if(selection == "test"){
-
-      }
-
       // View media
       if(selection=="1"){
         //Prints all
@@ -44,7 +39,6 @@ int main(int argc, char* argv[]){
       }
       // Mark item use
       else if(selection == "5"){
-
       }
       // Add item to library
       else if(selection == "6"){

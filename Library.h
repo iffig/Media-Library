@@ -30,7 +30,6 @@ class Library
         void printLibrary();
         void searchLibrary();
         LibNode* findItem(LibNode* node, std::string searchString);
-        void test();
     protected:
     private:
       LibNode* root;

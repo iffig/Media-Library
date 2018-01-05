@@ -49,7 +49,7 @@ Media* Book::add(){
 }
 
 void Book::update(){
-
+  readCount++;
 }
 
 void Book::printDetails(){
